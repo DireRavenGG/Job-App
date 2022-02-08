@@ -1,4 +1,4 @@
-import { Container, ListItemSecondaryAction, Stack } from "@mui/material";
+import { Container, ListItemSecondaryAction, Stack, Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
 import Containers from "../components/TaskContainer";
@@ -8,6 +8,7 @@ import styles from "../styles/Home.module.css";
 import TaskContainer from "../components/TaskContainer";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { updateJobs } from "../api/mutations/updateJobs";
+import ContainerHeader from "../components/ContainerHeader";
 
 async function fetchJobsRequest() {
   const response = await fetch("/api/jobs");
@@ -63,20 +64,45 @@ export default function Home() {
   return (
     <Container>
       <Navigation />
-      <Stack direction="row" justifyContent="space-evenly">
-        <DragDropContext key={"title"} onDragEnd={dragEndHandler}>
-          {titleArr.map((title, index) => (
-            <Droppable key={`${index}`} droppableId={`${title}`}>
-              {(provided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps}>
-                  <TaskContainer key={title} title={title} jobs={localJobs} />
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        width="fit-content"
+        margin="auto"
+      >
+        <Box
+          display="grid"
+          gridTemplateColumns="repeat(4, 1fr)"
+          gap={1}
+          width="100%"
+          justifyItems="center"
+        >
+          {titleArr.map((title) => (
+            <ContainerHeader key={title} title={title} />
           ))}
-        </DragDropContext>
-      </Stack>
+        </Box>
+        <Box width="fit-content" display="flex" flexDirection="row">
+          <DragDropContext key={"title"} onDragEnd={dragEndHandler}>
+            {titleArr.map((title, index) => (
+              <Droppable key={`${index}`} droppableId={`${title}`}>
+                {(provided) => (
+                  <div ref={provided.innerRef} {...provided.droppableProps}>
+                    <TaskContainer
+                      key={title}
+                      title={title}
+                      jobs={localJobs}
+                      setLocalJobs={setLocalJobs}
+                    />
+                  </div>
+                )}
+              </Droppable>
+            ))}
+          </DragDropContext>
+        </Box>
+      </Box>
     </Container>
   );
 }

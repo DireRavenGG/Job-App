@@ -1,40 +1,54 @@
-import { Container, Typography } from "@mui/material";
+import { alpha, Box, Container } from "@mui/material";
+
 import { Draggable } from "react-beautiful-dnd";
-import { Droppable } from "react-beautiful-dnd";
+
 import Card from "./Card";
 
-const TaskContainer = ({ title, jobs }) => {
+const TaskContainer = ({ title, jobs, setLocalJobs, index }) => {
   return (
     <Container
+      disableGutters
       sx={{
-        width: "225px",
-        minHeight: "500px",
+        m: 1,
+        minHeight: "120px",
         maxHeight: "100%",
-        bgcolor: "secondary.light",
-        color: "#fefefe",
+        bgcolor: alpha("#BDC2C8", 0.1),
+        width: "215px",
+        borderRadius: 1,
       }}
     >
-      <Typography variant="h6">{title}</Typography>
-      {jobs.map((job, index) =>
-        job.status === title ? (
-          <Draggable
-            key={job.id}
-            draggableId={`${job.id}`}
-            index={index}
-            disableInteractiveElementBlocking={true}
-          >
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-              >
-                <Card {...job} />
-              </div>
-            )}
-          </Draggable>
-        ) : null
-      )}
+      <Box
+        sx={{
+          py: "4px",
+        }}
+      >
+        {jobs
+          ? jobs.map((job, index) =>
+              job.status === title ? (
+                <Draggable
+                  key={job.id}
+                  draggableId={`${job.id}`}
+                  index={index}
+                  disableInteractiveElementBlocking={true}
+                >
+                  {(provided) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <Card
+                        {...job}
+                        setLocalJobs={setLocalJobs}
+                        allJobs={jobs}
+                      />
+                    </div>
+                  )}
+                </Draggable>
+              ) : null
+            )
+          : null}
+      </Box>
     </Container>
   );
 };
