@@ -9,6 +9,9 @@ import { useState } from "react";
 import { useMutation, useQueryClient, useQuery } from "react-query";
 import { deleteJobRequest } from "../api/mutations/deleteJobRequest";
 import CardInfo from "./CardInfo";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Box } from "@mui/material/node_modules/@mui/system";
 
 const Card = ({ title, datePosted, id, allJobs, setLocalJobs }) => {
   const [open, setOpen] = useState(false);
@@ -44,14 +47,26 @@ const Card = ({ title, datePosted, id, allJobs, setLocalJobs }) => {
         width: "200px",
         bgcolor: "#fff",
         m: 1,
-        p: 1,
         color: "secondary.main",
       }}
     >
-      <Typography variant="h6">{title}</Typography>
-      <Typography varinat="body-2">Posted: {datePosted}</Typography>
-      <Button onClick={deleteHandler}>Delete</Button>
-      <Button onClick={openHandler}>More Info</Button>
+      <Box sx={{ p: 1 }}>
+        <Typography variant="h6">{title}</Typography>
+        <Typography varinat="body-2">Posted: {datePosted}</Typography>
+      </Box>
+      <Box display="flex" flexDirection="row" justifyContent="flex-end">
+        <Box sx={{ mr: 10 }}>
+          <Button onClick={deleteHandler}>
+            <DeleteIcon />
+          </Button>
+        </Box>
+        <Box>
+          <Button onClick={openHandler}>
+            <ExpandMoreIcon />
+          </Button>
+        </Box>
+      </Box>
+
       {open ? (
         <Dialog open={open} onClose={closeHandler} maxWidth={false}>
           <CardInfo title={title} datePosted={datePosted} />

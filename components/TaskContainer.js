@@ -12,7 +12,7 @@ const TaskContainer = ({ title, jobs, setLocalJobs, index }) => {
         m: 1,
         minHeight: "120px",
         maxHeight: "100%",
-        bgcolor: alpha("#BDC2C8", 0.1),
+        bgcolor: "secondary.light",
         width: "215px",
         borderRadius: 1,
       }}

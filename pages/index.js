@@ -59,50 +59,53 @@ export default function Home() {
     }
   };
 
-  const titleArr = ["To Do", "In Progress", "PLACEHOLDER", "Completed"];
+  const titleArr = ["To Do", "In Progress", "Look Over", "Completed"];
 
   return (
-    <Container>
-      <Navigation />
-
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        width="fit-content"
-        margin="auto"
-      >
-        <Box
-          display="grid"
-          gridTemplateColumns="repeat(4, 1fr)"
-          gap={1}
-          width="100%"
-          justifyItems="center"
-        >
-          {titleArr.map((title) => (
-            <ContainerHeader key={title} title={title} />
-          ))}
-        </Box>
-        <Box width="fit-content" display="flex" flexDirection="row">
-          <DragDropContext key={"title"} onDragEnd={dragEndHandler}>
-            {titleArr.map((title, index) => (
-              <Droppable key={`${index}`} droppableId={`${title}`}>
-                {(provided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
-                    <TaskContainer
-                      key={title}
-                      title={title}
-                      jobs={localJobs}
-                      setLocalJobs={setLocalJobs}
-                    />
-                  </div>
-                )}
-              </Droppable>
-            ))}
-          </DragDropContext>
-        </Box>
+    <Box>
+      <Box>
+        <Navigation />
       </Box>
-    </Container>
+      <Container>
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          width="fit-content"
+          margin="auto"
+        >
+          <Box
+            display="grid"
+            gridTemplateColumns="repeat(4, 1fr)"
+            gap={1}
+            width="100%"
+            justifyItems="center"
+          >
+            {titleArr.map((title) => (
+              <ContainerHeader key={title} title={title} />
+            ))}
+          </Box>
+          <Box width="fit-content" display="flex" flexDirection="row">
+            <DragDropContext key={"title"} onDragEnd={dragEndHandler}>
+              {titleArr.map((title, index) => (
+                <Droppable key={`${index}`} droppableId={`${title}`}>
+                  {(provided) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                      <TaskContainer
+                        key={title}
+                        title={title}
+                        jobs={localJobs}
+                        setLocalJobs={setLocalJobs}
+                      />
+                    </div>
+                  )}
+                </Droppable>
+              ))}
+            </DragDropContext>
+          </Box>
+        </Box>
+      </Container>
+    </Box>
   );
 }

@@ -61,12 +61,12 @@ const AddForm = ({ setJobObject }) => {
 
   return (
     <Container>
-      <Paper elevation={4}>
+      <Paper elevation={4} sx={{ px: 4, bgcolor: "" }}>
         <Stack direction="column" alignItems="center" sx={{ py: 5 }}>
           <Typography variant="h4">New Card Form</Typography>
         </Stack>
         <Box>
-          <Stack direction="row" justifyContent="space-evenly">
+          <Stack direction="row" justifyContent="space-between">
             <Input
               placeholder="Job Title"
               id="job-title"
@@ -86,7 +86,7 @@ const AddForm = ({ setJobObject }) => {
           </Stack>
         </Box>
 
-        <Stack direction="column" alignItems="center" sx={{ py: 10 }}>
+        <Stack direction="column" alignItems="center" sx={{ pt: 10, pb: 5 }}>
           <FormControl sx={{ minWidth: "120px" }}>
             <InputLabel id="demo-simple-select-standard-label">
               Status*
@@ -100,15 +100,35 @@ const AddForm = ({ setJobObject }) => {
             >
               <MenuItem value="To Do">To Do</MenuItem>
               <MenuItem value="In Progress">In Progress</MenuItem>
-
+              <MenuItem value="Look Over">Look Over</MenuItem>
               <MenuItem value="Completed">Completed</MenuItem>
             </Select>
           </FormControl>
-          <TextField id="more-info" multiline maxRows={4} />
         </Stack>
-        <Button variant="submit" onClick={submitHandler}>
-          Submit
-        </Button>
+        <Box display="flex" justifyContent="center">
+          <TextField
+            id="more-info"
+            placeholder=" Optional* Add More Info"
+            multiline
+            minRows={4}
+            maxRows={16}
+            fullWidth
+          />
+        </Box>
+        <Box display="flex" justifyContent="flex-end" py={4}>
+          <Button
+            variant="submit"
+            onClick={submitHandler}
+            sx={{
+              fontSize: "20px",
+              bgcolor: "secondary.light",
+              color: "#fefefe",
+              "&:hover": { bgcolor: "rgb(76, 79, 80)" },
+            }}
+          >
+            Submit
+          </Button>
+        </Box>
       </Paper>
     </Container>
   );
