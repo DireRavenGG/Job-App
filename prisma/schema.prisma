@@ -17,20 +17,7 @@ model Job {
   datePosted String
   status String
   moreInfo String
+  user String 
+
   
-}
-
-model Session {
-  id Int @id @default(autoincrement())
-  sid String   @unique
-  data String
-  expiresAt DateTime
-}
-
-model User {
-  id Int @id @default(autoincrement())
-  username String
-  password String
-  firstName String
-  lastName String
 }
