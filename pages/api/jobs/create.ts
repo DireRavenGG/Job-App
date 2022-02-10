@@ -15,6 +15,7 @@ export default async function createJob(
         title: jobData.title,
         datePosted: jobData.datePosted,
         status: jobData.status,
+        moreInfo: jobData.moreInfo,
       },
     });
     res.status(201);

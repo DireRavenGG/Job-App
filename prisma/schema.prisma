@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = env("DATABASE_URL")
 }
 
 model Job {
@@ -16,5 +16,21 @@ model Job {
   title String
   datePosted String
   status String
+  moreInfo String
   
+}
+
+model Session {
+  id Int @id @default(autoincrement())
+  sid String   @unique
+  data String
+  expiresAt DateTime
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  username String
+  password String
+  firstName String
+  lastName String
 }

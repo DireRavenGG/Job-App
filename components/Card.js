@@ -13,7 +13,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material/node_modules/@mui/system";
 
-const Card = ({ title, datePosted, id, allJobs, setLocalJobs }) => {
+const Card = ({ title, datePosted, id, allJobs, setLocalJobs, moreInfo }) => {
   const [open, setOpen] = useState(false);
 
   const deleteMutate = useMutation(deleteJobRequest, {});
@@ -69,7 +69,7 @@ const Card = ({ title, datePosted, id, allJobs, setLocalJobs }) => {
 
       {open ? (
         <Dialog open={open} onClose={closeHandler} maxWidth={false}>
-          <CardInfo title={title} datePosted={datePosted} />
+          <CardInfo title={title} datePosted={datePosted} moreInfo={moreInfo} />
         </Dialog>
       ) : null}
     </MuiCard>

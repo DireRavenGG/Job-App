@@ -36,7 +36,7 @@ const AddForm = ({ setJobObject }) => {
   const [job, setJob] = useState("");
   const result = startOfToday;
   const [date, setDate] = useState(result);
-
+  const [moreInfo, setMoreInfo] = useState("");
   const { mutate } = useMutation(createJobRequest);
 
   const jobHandler = (e) => {
@@ -47,16 +47,22 @@ const AddForm = ({ setJobObject }) => {
     setSelect(e.target.value);
   };
 
+  const infoHandler = (e) => {
+    setMoreInfo(e.target.value);
+  };
+
   const submitHandler = () => {
     mutate({
       title: job,
       datePosted: format(date, "MM/dd/yy"),
       status: select,
+      moreInfo: moreInfo,
     });
 
     setSelect("");
     setDate();
     setJob("");
+    setMoreInfo("");
   };
 
   return (
@@ -109,6 +115,8 @@ const AddForm = ({ setJobObject }) => {
           <TextField
             id="more-info"
             placeholder=" Optional* Add More Info"
+            onChange={infoHandler}
+            value={moreInfo}
             multiline
             minRows={4}
             maxRows={16}

@@ -9,6 +9,7 @@ import TaskContainer from "../components/TaskContainer";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { updateJobs } from "../api/mutations/updateJobs";
 import ContainerHeader from "../components/ContainerHeader";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 async function fetchJobsRequest() {
   const response = await fetch("/api/jobs");
@@ -19,8 +20,17 @@ async function fetchJobsRequest() {
 
 export default function Home() {
   const { data: jobs } = useQuery("jobs", fetchJobsRequest);
+  const { data: session } = useSession();
 
   const [localJobs, setLocalJobs] = useState([]);
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    if (session) {
+      setUser(session);
+    }
+  }, [session]);
+  console.log("session", session);
+  console.log("user", user);
 
   const updateMutate = useMutation(updateJobs, {
     onError: (error) => {
@@ -64,7 +74,7 @@ export default function Home() {
   return (
     <Box>
       <Box>
-        <Navigation />
+        <Navigation signIn={signIn} signOut={signOut} user={user} />
       </Box>
       <Container>
         <Box

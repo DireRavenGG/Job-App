@@ -1,6 +1,10 @@
 import { Box, Stack, Typography } from "@mui/material";
+import TextareaAutosize from "@mui/base/TextareaAutosize";
 
-const CardInfo = ({ title, datePosted }) => {
+// Fix TextAreaAutoSize to not display box
+// and send data on close to server
+
+const CardInfo = ({ title, datePosted, moreInfo }) => {
   return (
     <Box bgcolor="#fefefe" justifyContent="center" height="80vh" width="60vw">
       <Stack direction="row" alignItems="center" m="8px">
@@ -13,9 +17,7 @@ const CardInfo = ({ title, datePosted }) => {
       </Stack>
       <Box sx={{ p: 1 }}>
         <Typography variant="h6">More Info</Typography>
-        <Typography variant="body2">
-          asdfasfd asdfasdf <br /> asdfasdfa adsfasdf
-        </Typography>
+        <TextareaAutosize defaultValue={moreInfo} />
       </Box>
     </Box>
   );
