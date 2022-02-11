@@ -1,13 +1,10 @@
-import { Container, ListItemSecondaryAction, Stack, Box } from "@mui/material";
+import { Container, Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Card from "../components/Card";
-import Containers from "../components/TaskContainer";
 import Navigation from "../components/Navigation";
 import { useQuery, useMutation } from "react-query";
-import styles from "../styles/Home.module.css";
 import TaskContainer from "../components/TaskContainer";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { updateJobs } from "../api/mutations/updateJobs";
+import { updateJobs } from "../api/mutations/updateStatus";
 import ContainerHeader from "../components/ContainerHeader";
 import { useSession, signIn, signOut } from "next-auth/react";
 
@@ -60,7 +57,19 @@ export default function Home({ cheese, setCheese }) {
   console.log("Index", cheese);
   const dragEndHandler = (result) => {
     if (!result.destination) return;
+    if (!user.user) {
+      const jobIndex = localJobs.findIndex(
+        (job) => job.id == result.draggableId
+      );
+      localJobs[jobIndex].status = result.destination.droppableId;
 
+      const localJobsArr = Array.from(localJobs);
+      const [reorder] = localJobsArr.splice(result.source.index, 1);
+      localJobsArr.splice(result.destination.index, 0, reorder);
+
+      setLocalJobs(localJobsArr);
+      return;
+    }
     const jobIndex = localJobs.findIndex((job) => job.id == result.draggableId);
     localJobs[jobIndex].status = result.destination.droppableId;
 
@@ -121,6 +130,7 @@ export default function Home({ cheese, setCheese }) {
                         title={title}
                         jobs={localJobs}
                         setLocalJobs={setLocalJobs}
+                        setCheese={setCheese}
                         user={user}
                       />
                     </div>

@@ -1,10 +1,10 @@
-import { alpha, Box, Container } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
 import { Draggable } from "react-beautiful-dnd";
 
 import Card from "./Card";
 
-const TaskContainer = ({ title, jobs, setLocalJobs, index }) => {
+const TaskContainer = ({ title, jobs, setLocalJobs, setCheese, user }) => {
   return (
     <Container
       disableGutters
@@ -41,6 +41,8 @@ const TaskContainer = ({ title, jobs, setLocalJobs, index }) => {
                         {...job}
                         setLocalJobs={setLocalJobs}
                         allJobs={jobs}
+                        user={user}
+                        setCheese={setCheese}
                       />
                     </div>
                   )}

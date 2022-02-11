@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { useMutation, useQueryClient, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { deleteJobRequest } from "../api/mutations/deleteJobRequest";
 import CardInfo from "./CardInfo";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -21,6 +21,7 @@ const Card = ({
   setLocalJobs,
   moreInfo,
   user,
+  setCheese,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -81,7 +82,16 @@ const Card = ({
 
       {open ? (
         <Dialog open={open} onClose={closeHandler} maxWidth={false}>
-          <CardInfo title={title} datePosted={datePosted} moreInfo={moreInfo} />
+          <CardInfo
+            title={title}
+            datePosted={datePosted}
+            moreInfo={moreInfo}
+            setLocalJobs={setLocalJobs}
+            id={id}
+            user={user}
+            allJobs={allJobs}
+            setCheese={setCheese}
+          />
         </Dialog>
       ) : null}
     </MuiCard>

@@ -15,7 +15,8 @@ const demoJobs = [
     title: "DEMO",
     datePosted: "02/10/21",
     status: "To Do",
-    moreInfo: "SIGN IN TO CREATE YOUR OWN CARDS",
+    moreInfo:
+      "Cards are only saved to state when not signed in. Edit button allows you to change more info and the title",
     user: "demo",
   },
   {
@@ -23,7 +24,8 @@ const demoJobs = [
     title: "DEMO 2",
     datePosted: "02/10/21",
     status: "In Progress",
-    moreInfo: "SIGN IN TO CREATE YOUR OWN CARDS",
+    moreInfo:
+      "Cards are only saved to state when not signed in. Edit button allows you to change more info and the title",
     user: "demo",
   },
   {
@@ -31,7 +33,8 @@ const demoJobs = [
     title: "DEMO 3",
     datePosted: "02/10/21",
     status: "Look Over",
-    moreInfo: "SIGN IN TO CREATE YOUR OWN CARDS",
+    moreInfo:
+      "Cards are only saved to state when not signed in. Edit button allows you to change more info and the title",
     user: "demo",
   },
   {
@@ -39,7 +42,8 @@ const demoJobs = [
     title: "DEMO 4",
     datePosted: "02/10/21",
     status: "Completed",
-    moreInfo: "SIGN IN TO CREATE YOUR OWN CARDS",
+    moreInfo:
+      "Cards are only saved to state when not signed in. Edit button allows you to change more info and the title",
     user: "demo",
   },
 ];
