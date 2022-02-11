@@ -7,7 +7,6 @@ export default function Add({ cheese, setCheese }) {
   const { data: session } = useSession();
   const [user, setUser] = useState({});
 
-  console.log(cheese);
   useEffect(() => {
     if (session) {
       setUser(session);
