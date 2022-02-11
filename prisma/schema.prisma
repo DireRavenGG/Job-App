@@ -19,5 +19,4 @@ model Job {
   moreInfo String
   user String 
 
-  
 }

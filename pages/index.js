@@ -11,26 +11,34 @@ import { updateJobs } from "../api/mutations/updateJobs";
 import ContainerHeader from "../components/ContainerHeader";
 import { useSession, signIn, signOut } from "next-auth/react";
 
-async function fetchJobsRequest() {
-  const response = await fetch("/api/jobs");
+export async function fetchJobsRequest(name) {
+  const response = await fetch(`/api/jobs/index/${name}`, {});
   const data = await response.json();
-  const { jobs } = data;
-  return jobs;
+
+  return data;
 }
 
-export default function Home() {
-  const { data: jobs } = useQuery("jobs", fetchJobsRequest);
+export default function Home({ cheese, setCheese }) {
   const { data: session } = useSession();
+  let name = "";
+  if (session) {
+    name = session.user.name;
+  }
+  const { data: jobs } = useQuery(
+    ["jobs", name],
+    () => fetchJobsRequest(name),
+    { retry: false }
+  );
 
   const [localJobs, setLocalJobs] = useState([]);
   const [user, setUser] = useState({});
+
   useEffect(() => {
     if (session) {
       setUser(session);
+      return;
     }
   }, [session]);
-  console.log("session", session);
-  console.log("user", user);
 
   const updateMutate = useMutation(updateJobs, {
     onError: (error) => {
@@ -40,10 +48,16 @@ export default function Home() {
 
   useEffect(() => {
     if (jobs) {
-      setLocalJobs([...jobs]);
+      setLocalJobs([...jobs.jobs]);
+      return;
     }
   }, [jobs]);
 
+  useEffect(() => {
+    setLocalJobs(cheese);
+  }, [cheese]);
+
+  console.log("Index", cheese);
   const dragEndHandler = (result) => {
     if (!result.destination) return;
 
@@ -107,6 +121,7 @@ export default function Home() {
                         title={title}
                         jobs={localJobs}
                         setLocalJobs={setLocalJobs}
+                        user={user}
                       />
                     </div>
                   )}

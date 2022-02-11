@@ -9,6 +9,7 @@ export default async function createJob(
 
   try {
     const { job: jobData } = req.body;
+    console.log("job", jobData.name);
 
     const job = await prisma.job.create({
       data: {
@@ -16,6 +17,7 @@ export default async function createJob(
         datePosted: jobData.datePosted,
         status: jobData.status,
         moreInfo: jobData.moreInfo,
+        user: jobData.name,
       },
     });
     res.status(201);

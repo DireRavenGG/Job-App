@@ -13,24 +13,36 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material/node_modules/@mui/system";
 
-const Card = ({ title, datePosted, id, allJobs, setLocalJobs, moreInfo }) => {
+const Card = ({
+  title,
+  datePosted,
+  id,
+  allJobs,
+  setLocalJobs,
+  moreInfo,
+  user,
+}) => {
   const [open, setOpen] = useState(false);
 
   const deleteMutate = useMutation(deleteJobRequest, {});
 
   const deleteHandler = () => {
     if (!allJobs) return;
-    const allButDeleted = [];
-    allJobs.forEach((job) => {
-      if (job.id == id) {
-        return null;
-      }
-      allButDeleted.push(job);
-    });
-    setLocalJobs(allButDeleted);
-    deleteMutate.mutate({
-      id,
-    });
+    if (!user) {
+      setLocalJobs(allButDeleted);
+    } else {
+      const allButDeleted = [];
+      allJobs.forEach((job) => {
+        if (job.id == id) {
+          return null;
+        }
+        allButDeleted.push(job);
+      });
+      setLocalJobs(allButDeleted);
+      deleteMutate.mutate({
+        id,
+      });
+    }
   };
 
   const openHandler = () => {

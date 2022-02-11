@@ -31,7 +31,7 @@ async function createJobRequest(jobData) {
   return job;
 }
 
-const AddForm = ({ setJobObject }) => {
+const AddForm = ({ user, setCheese, cheese }) => {
   const [select, setSelect] = useState("");
   const [job, setJob] = useState("");
   const result = startOfToday;
@@ -52,13 +52,32 @@ const AddForm = ({ setJobObject }) => {
   };
 
   const submitHandler = () => {
-    mutate({
-      title: job,
-      datePosted: format(date, "MM/dd/yy"),
-      status: select,
-      moreInfo: moreInfo,
-    });
+    if (user.user) {
+      mutate({
+        title: job,
+        datePosted: format(date, "MM/dd/yy"),
+        status: select,
+        moreInfo: moreInfo,
+        name: user.user.name,
+      });
+      setSelect("");
+      setDate();
+      setJob("");
+      setMoreInfo("");
+      return;
+    }
 
+    setCheese((prevCheese) => [
+      ...prevCheese,
+      {
+        id: cheese.length + 1,
+        title: job,
+        datePosted: format(date, "MM/dd/yy"),
+        status: select,
+        moreInfo: moreInfo,
+        user: "demo",
+      },
+    ]);
     setSelect("");
     setDate();
     setJob("");

@@ -29,11 +29,7 @@ const Navigation = ({ user, signIn, signOut }) => {
   const toggleDrawer = () => {
     setDrawer(!drawer);
   };
-
-  const toggleDropdown = () => {
-    // if not logged in show log in or sign up
-    // display account data (username / first and last name) and log out button
-  };
+  console.log(user);
 
   const renderButton = () => {
     if (!user || !user.user) {
