@@ -1,5 +1,5 @@
-export async function updateJobs(jobs) {
-  const response = await fetch("/api/jobs/updateJob", {
+export async function updateJobs(jobs: object) {
+  const response = await fetch("/api/jobs/updateStatus", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

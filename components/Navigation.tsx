@@ -17,8 +17,6 @@ import { useState } from "react";
 import Link from "next/link";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
-import session from "express-session";
-import Image from "next/image";
 
 // if logged in change AccountUserIcon to something else
 

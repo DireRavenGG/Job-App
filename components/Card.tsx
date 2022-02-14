@@ -5,15 +5,28 @@ import {
   Popper,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useMutation } from "react-query";
 import { deleteJobRequest } from "../api/mutations/deleteJobRequest";
 import CardInfo from "./CardInfo";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material/node_modules/@mui/system";
-
-const Card = ({
+interface Props {
+  title: string;
+  datePosted: string;
+  id: number;
+  allJobs: any[];
+  setLocalJobs: Dispatch<SetStateAction<any[]>>;
+  moreInfo: string;
+  user: {
+    user: {
+      name: string;
+    };
+  };
+  setCheese: Dispatch<SetStateAction<any[]>>;
+}
+const Card: React.FC<Props> = ({
   title,
   datePosted,
   id,
@@ -30,7 +43,7 @@ const Card = ({
   const deleteHandler = () => {
     if (!allJobs) return;
     if (!user) {
-      setLocalJobs(allButDeleted);
+      return;
     } else {
       const allButDeleted = [];
       allJobs.forEach((job) => {
@@ -65,7 +78,7 @@ const Card = ({
     >
       <Box sx={{ p: 1 }}>
         <Typography variant="h6">{title}</Typography>
-        <Typography varinat="body-2">Posted: {datePosted}</Typography>
+        <Typography variant="body2">Posted: {datePosted}</Typography>
       </Box>
       <Box display="flex" flexDirection="row" justifyContent="flex-end">
         <Box sx={{ mr: 10 }}>

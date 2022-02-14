@@ -39,6 +39,11 @@ const AddForm = ({ user, setCheese, cheese }) => {
   const [moreInfo, setMoreInfo] = useState("");
   const { mutate } = useMutation(createJobRequest);
 
+  // REFACTOR HANDLERS CLEAN THIS SHIT UP
+  // const handler = (e, set) => {
+
+  // }
+
   const jobHandler = (e) => {
     setJob(e.target.value);
   };
@@ -61,7 +66,7 @@ const AddForm = ({ user, setCheese, cheese }) => {
         name: user.user.name,
       });
       setSelect("");
-      setDate();
+      setDate(null);
       setJob("");
       setMoreInfo("");
       return;
@@ -79,7 +84,7 @@ const AddForm = ({ user, setCheese, cheese }) => {
       },
     ]);
     setSelect("");
-    setDate();
+    setDate(null);
     setJob("");
     setMoreInfo("");
   };
@@ -144,7 +149,7 @@ const AddForm = ({ user, setCheese, cheese }) => {
         </Box>
         <Box display="flex" justifyContent="flex-end" py={4}>
           <Button
-            variant="submit"
+            variant="text"
             onClick={submitHandler}
             sx={{
               fontSize: "20px",

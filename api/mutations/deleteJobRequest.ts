@@ -1,4 +1,4 @@
-export async function deleteJobRequest(id) {
+export async function deleteJobRequest(id: { id: number }) {
   const response = await fetch("/api/jobs/delete", {
     method: "DELETE",
     headers: {

@@ -7,6 +7,7 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { updateJobs } from "../api/mutations/updateStatus";
 import ContainerHeader from "../components/ContainerHeader";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { Session } from "next-auth";
 
 export async function fetchJobsRequest(name) {
   const response = await fetch(`/api/jobs/index/${name}`, {});
@@ -28,7 +29,7 @@ export default function Home({ cheese, setCheese }) {
   );
 
   const [localJobs, setLocalJobs] = useState([]);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState<Session>(null);
 
   useEffect(() => {
     if (session) {
@@ -39,7 +40,7 @@ export default function Home({ cheese, setCheese }) {
 
   const updateMutate = useMutation(updateJobs, {
     onError: (error) => {
-      console.log(error.message);
+      console.log(error);
     },
   });
 

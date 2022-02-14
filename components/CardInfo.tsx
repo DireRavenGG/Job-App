@@ -2,14 +2,27 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import TextareaAutosize from "@mui/base/TextareaAutosize";
 import EditIcon from "@mui/icons-material/Edit";
 import EditOffIcon from "@mui/icons-material/EditOff";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { updateJobs } from "../api/mutations/updateJob";
 
 // Fix TextAreaAutoSize to not display box
 // and send data on close to server
-
-const CardInfo = ({
+interface Props {
+  title: string;
+  datePosted: string;
+  id: number;
+  allJobs: any[];
+  setLocalJobs: Dispatch<SetStateAction<any[]>>;
+  moreInfo: string;
+  user: {
+    user: {
+      name: string;
+    };
+  };
+  setCheese: Dispatch<SetStateAction<any[]>>;
+}
+const CardInfo: React.FC<Props> = ({
   title,
   datePosted,
   moreInfo,
@@ -22,7 +35,7 @@ const CardInfo = ({
   const [edit, setEdit] = useState(false);
   const [moreInfoVal, setMoreInfoVal] = useState("");
   const [newTitle, setNewTitle] = useState("");
-  const [inputWidth, setInputWidth] = useState();
+  const [inputWidth, setInputWidth] = useState(0);
   const { mutate } = useMutation(updateJobs);
   useEffect(() => {
     setMoreInfoVal(moreInfo);
@@ -91,7 +104,7 @@ const CardInfo = ({
           </Typography>
         )}
 
-        <Typography variant="subtitle" sx={{ p: 1 }}>
+        <Typography variant="subtitle1" sx={{ p: 1 }}>
           ({datePosted})
         </Typography>
         <Button onClick={editHandler}>
