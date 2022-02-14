@@ -69,6 +69,7 @@ const AddForm = ({ user, setCheese, cheese }) => {
       setDate(null);
       setJob("");
       setMoreInfo("");
+      window.location.href = "/";
       return;
     }
 
