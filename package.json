@@ -1,5 +1,5 @@
 {
-  "name": "japp",
+  "name": "JobApp",
   "private": true,
   "scripts": {
     "dev": "next dev",
