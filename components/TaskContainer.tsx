@@ -1,10 +1,24 @@
 import { Box, Container } from "@mui/material";
+import { Dispatch, SetStateAction } from "react";
 
 import { Draggable } from "react-beautiful-dnd";
+import { Job } from "../types/job";
 
 import Card from "./Card";
-
-const TaskContainer = ({ title, jobs, setLocalJobs, setCheese, user }) => {
+interface TaskContainerProps {
+  title: string;
+  jobs: any[];
+  setLocalJobs: any;
+  setDemo: Dispatch<SetStateAction<Job[]>>;
+  user: any;
+}
+const TaskContainer = ({
+  title,
+  jobs,
+  setLocalJobs,
+  setDemo,
+  user,
+}: TaskContainerProps) => {
   return (
     <Container
       disableGutters
@@ -42,7 +56,7 @@ const TaskContainer = ({ title, jobs, setLocalJobs, setCheese, user }) => {
                         setLocalJobs={setLocalJobs}
                         allJobs={jobs}
                         user={user}
-                        setCheese={setCheese}
+                        setDemo={setDemo}
                       />
                     </div>
                   )}

@@ -2,12 +2,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 
 export default async function getJobs(
-  { query: { name } },
+  { query: { name } }: { query: { name: string } },
   res: NextApiResponse
 ) {
   const prisma = new PrismaClient({ log: ["query"] });
   const username = name;
-  console.log("In [name]", name);
+
   try {
     const jobs = await prisma.job.findMany({
       where: {

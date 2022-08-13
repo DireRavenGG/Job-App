@@ -1,5 +1,5 @@
 import { Container, Box } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Navigation from "../components/Navigation";
 import { useQuery, useMutation } from "react-query";
 import TaskContainer from "../components/TaskContainer";
@@ -8,19 +8,26 @@ import { updateJobs } from "../api/mutations/updateStatus";
 import ContainerHeader from "../components/ContainerHeader";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { Session } from "next-auth";
-
-export async function fetchJobsRequest(name) {
+import { Job } from "../types/job";
+export async function fetchJobsRequest(name: string) {
   const response = await fetch(`/api/jobs/index/${name}`, {});
   const data = await response.json();
 
   return data;
 }
 
-export default function Home({ cheese, setCheese }) {
+interface HomeProps {
+  demo: Job[];
+  setDemo: Dispatch<SetStateAction<Job[]>>;
+}
+
+export default function Home({ demo, setDemo }: HomeProps) {
   const { data: session } = useSession();
   let name = "";
   if (session) {
-    name = session.user.name;
+    if (session.user) {
+      name = session.user.name as string;
+    }
   }
   const { data: jobs } = useQuery(
     ["jobs", name],
@@ -28,12 +35,13 @@ export default function Home({ cheese, setCheese }) {
     { retry: false }
   );
 
-  const [localJobs, setLocalJobs] = useState([]);
-  const [user, setUser] = useState<Session>(null);
+  const [localJobs, setLocalJobs] = useState<Job[]>([]);
+  const [user, setUser] = useState<Session>();
 
   useEffect(() => {
     if (session) {
       setUser(session);
+
       return;
     }
   }, [session]);
@@ -52,13 +60,12 @@ export default function Home({ cheese, setCheese }) {
   }, [jobs]);
 
   useEffect(() => {
-    setLocalJobs(cheese);
-  }, [cheese]);
+    setLocalJobs(demo);
+  }, [demo]);
 
-  console.log("Index", cheese);
-  const dragEndHandler = (result) => {
+  const dragEndHandler = (result: any) => {
     if (!result.destination) return;
-    if (!user.user) {
+    if (!user || !user.user) {
       const jobIndex = localJobs.findIndex(
         (job) => job.id == result.draggableId
       );
@@ -92,7 +99,7 @@ export default function Home({ cheese, setCheese }) {
       });
     }
   };
-
+  console.log(localJobs);
   const titleArr = ["To Do", "In Progress", "Look Over", "Completed"];
 
   return (
@@ -131,7 +138,7 @@ export default function Home({ cheese, setCheese }) {
                         title={title}
                         jobs={localJobs}
                         setLocalJobs={setLocalJobs}
-                        setCheese={setCheese}
+                        setDemo={setDemo}
                         user={user}
                       />
                     </div>

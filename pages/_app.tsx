@@ -6,8 +6,10 @@ import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { SessionProvider } from "next-auth/react";
 import Navigation from "../components/Navigation";
-import { useSession, signIn, signOut } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { Job } from "../types/job";
+import { useState } from "react";
+import { AppProps } from "next/app";
+import { NextComponentType, NextPageContext } from "next";
 const queryClient = new QueryClient();
 const demoJobs = [
   {
@@ -47,16 +49,20 @@ const demoJobs = [
     user: "demo",
   },
 ];
-function MyApp({ Component, pageProps: { session, ...pageProps } }) {
-  const [cheese, setCheese] = useState(demoJobs);
 
-  console.log("_APP", cheese);
+function MyApp({ Component, pageProps: { ...pageProps } }: any) {
+  const [demo, setDemo] = useState(demoJobs);
+
+  const demoHandler = (arr: Job[]) => {
+    setDemo(arr);
+  };
+
   return (
     <SessionProvider>
       <LocalizationProvider dateAdapter={DateAdapter}>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider theme={theme}>
-            <Component {...pageProps} setCheese={setCheese} cheese={cheese} />;
+            <Component {...pageProps} setDemo={demoHandler} demo={demo} />;
           </ThemeProvider>
         </QueryClientProvider>
       </LocalizationProvider>

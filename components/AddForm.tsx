@@ -15,10 +15,11 @@ import {
 } from "@mui/material";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import { format, startOfToday } from "date-fns";
-import { useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { useMutation } from "react-query";
+import { Job } from "../types/job";
 
-async function createJobRequest(jobData) {
+async function createJobRequest(jobData: any) {
   const response = await fetch("/api/jobs/create", {
     method: "POST",
     headers: {
@@ -30,8 +31,12 @@ async function createJobRequest(jobData) {
   const { job } = data;
   return job;
 }
-
-const AddForm = ({ user, setCheese, cheese }) => {
+interface AddFormProps {
+  user: any;
+  setDemo: Dispatch<SetStateAction<Job[]>>;
+  demo: Job[];
+}
+const AddForm = ({ user, setDemo, demo }: AddFormProps) => {
   const [select, setSelect] = useState("");
   const [job, setJob] = useState("");
   const result = startOfToday;
@@ -44,16 +49,8 @@ const AddForm = ({ user, setCheese, cheese }) => {
 
   // }
 
-  const jobHandler = (e) => {
-    setJob(e.target.value);
-  };
-
-  const selectHandler = (e) => {
-    setSelect(e.target.value);
-  };
-
-  const infoHandler = (e) => {
-    setMoreInfo(e.target.value);
+  const handler = (e: any, set: SetStateAction<any>) => {
+    set(e.target.value);
   };
 
   const submitHandler = () => {
@@ -66,17 +63,17 @@ const AddForm = ({ user, setCheese, cheese }) => {
         name: user.user.name,
       });
       setSelect("");
-      setDate(null);
+      setDate(result);
       setJob("");
       setMoreInfo("");
       window.location.href = "/";
       return;
     }
-
-    setCheese((prevCheese) => [
-      ...prevCheese,
+    console.log(setDemo);
+    setDemo((prevDemo: Job[]) => [
+      ...prevDemo,
       {
-        id: cheese.length + 1,
+        id: demo.length + 1,
         title: job,
         datePosted: format(date, "MM/dd/yy"),
         status: select,
@@ -85,7 +82,7 @@ const AddForm = ({ user, setCheese, cheese }) => {
       },
     ]);
     setSelect("");
-    setDate(null);
+    setDate(result);
     setJob("");
     setMoreInfo("");
   };
@@ -103,13 +100,13 @@ const AddForm = ({ user, setCheese, cheese }) => {
               id="job-title"
               value={job}
               required
-              onChange={jobHandler}
+              onChange={(e) => handler(e, setJob)}
             />
             <DesktopDatePicker
               inputFormat="MM/dd/yyyy"
               value={date}
               onChange={(date) => {
-                setDate(date);
+                setDate(date || result);
               }}
               renderInput={(params) => <TextField {...params} />}
               allowSameDateSelection
@@ -124,7 +121,7 @@ const AddForm = ({ user, setCheese, cheese }) => {
             </InputLabel>
             <Select
               value={select}
-              onChange={selectHandler}
+              onChange={(e) => handler(e, setSelect)}
               labelId="demo-simple-select-standard-label"
               label="Status *"
               required
@@ -140,7 +137,7 @@ const AddForm = ({ user, setCheese, cheese }) => {
           <TextField
             id="more-info"
             placeholder=" Optional* Add More Info"
-            onChange={infoHandler}
+            onChange={(e) => handler(e, setMoreInfo)}
             value={moreInfo}
             multiline
             minRows={4}

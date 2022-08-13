@@ -20,7 +20,7 @@ interface Props {
       name: string;
     };
   };
-  setCheese: Dispatch<SetStateAction<any[]>>;
+  setDemo: Dispatch<SetStateAction<any[]>>;
 }
 const CardInfo: React.FC<Props> = ({
   title,
@@ -30,7 +30,7 @@ const CardInfo: React.FC<Props> = ({
   setLocalJobs,
   user,
   allJobs,
-  setCheese,
+  setDemo,
 }) => {
   const [edit, setEdit] = useState(false);
   const [moreInfoVal, setMoreInfoVal] = useState("");
@@ -46,7 +46,7 @@ const CardInfo: React.FC<Props> = ({
     setInputWidth((newTitle.length + 1) * 20);
   }, [newTitle]);
 
-  const moreInfoHandler = (e) => {
+  const moreInfoHandler = (e: any) => {
     setMoreInfoVal(e.target.value);
   };
 
@@ -54,7 +54,7 @@ const CardInfo: React.FC<Props> = ({
     setEdit((prevEdit) => !prevEdit);
     saveEdit();
   };
-  const newTitleHandler = (e) => {
+  const newTitleHandler = (e: any) => {
     setNewTitle(e.target.value);
   };
 
@@ -74,7 +74,7 @@ const CardInfo: React.FC<Props> = ({
     let updateJob = allJobs.map((obj) =>
       obj.id === id ? { ...obj, title: newTitle, moreInfo: moreInfoVal } : obj
     );
-    setCheese(updateJob);
+    setDemo(updateJob);
   };
 
   return (

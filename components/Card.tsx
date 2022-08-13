@@ -11,20 +11,21 @@ import { deleteJobRequest } from "../api/mutations/deleteJobRequest";
 import CardInfo from "./CardInfo";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Box } from "@mui/material/node_modules/@mui/system";
+import Box from "@mui/material/Box";
+import { Job } from "../types/job";
 interface Props {
   title: string;
   datePosted: string;
   id: number;
-  allJobs: any[];
-  setLocalJobs: Dispatch<SetStateAction<any[]>>;
+  allJobs: Job[];
+  setLocalJobs: Dispatch<SetStateAction<Job[]>>;
   moreInfo: string;
   user: {
     user: {
       name: string;
     };
   };
-  setCheese: Dispatch<SetStateAction<any[]>>;
+  setDemo: Dispatch<SetStateAction<Job[]>>;
 }
 const Card: React.FC<Props> = ({
   title,
@@ -34,7 +35,7 @@ const Card: React.FC<Props> = ({
   setLocalJobs,
   moreInfo,
   user,
-  setCheese,
+  setDemo,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -42,21 +43,19 @@ const Card: React.FC<Props> = ({
 
   const deleteHandler = () => {
     if (!allJobs) return;
-    if (!user) {
-      return;
-    } else {
-      const allButDeleted = [];
-      allJobs.forEach((job) => {
-        if (job.id == id) {
-          return null;
-        }
-        allButDeleted.push(job);
-      });
-      setLocalJobs(allButDeleted);
+    if (user) {
       deleteMutate.mutate({
         id,
       });
     }
+    const allButDeleted: Job[] = [];
+    allJobs.forEach((job) => {
+      if (job.id == id) {
+        return null;
+      }
+      allButDeleted.push(job);
+    });
+    setLocalJobs(allButDeleted);
   };
 
   const openHandler = () => {
@@ -103,7 +102,7 @@ const Card: React.FC<Props> = ({
             id={id}
             user={user}
             allJobs={allJobs}
-            setCheese={setCheese}
+            setDemo={setDemo}
           />
         </Dialog>
       ) : null}
