@@ -16,41 +16,34 @@ import { Box } from "@mui/material";
 import { useState } from "react";
 import Link from "next/link";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
+import {
+  usePopupState,
+  bindTrigger,
+  bindPopover,
+} from "material-ui-popup-state/hooks";
 
 // if logged in change AccountUserIcon to something else
 
-const Navigation = ({ user, signIn, signOut }) => {
+const Navigation = () => {
   const [drawer, setDrawer] = useState(false);
+  const popupState = usePopupState({
+    variant: "popover",
+    popupId: "navigation",
+  });
 
   //add login in to drawer aswell
   const toggleDrawer = () => {
     setDrawer(!drawer);
   };
-  console.log(user);
 
   const renderButton = () => {
-    if (!user || !user.user) {
-      return <AccountCircleIcon sx={{ fontSize: 40 }} />;
-    }
-    return <Avatar src={user.user.image} />;
+    return <AccountCircleIcon sx={{ fontSize: 40 }} />;
   };
 
   const renderList = () => {
-    if (!user || !user.user) {
-      return (
-        <List>
-          <ListItem button onClick={() => signIn()}>
-            <ListItemText primary="Sign Up" />
-          </ListItem>
-        </List>
-      );
-    }
     return (
       <List>
-        <ListItem button onClick={() => signOut()}>
-          <ListItemText primary="Sign Out" />
-        </ListItem>
+        <ListItem button></ListItem>
       </List>
     );
   };
@@ -60,26 +53,19 @@ const Navigation = ({ user, signIn, signOut }) => {
         <Button onClick={toggleDrawer}>
           <MenuIcon sx={{ fontSize: 40 }} />
         </Button>
-        <PopupState variant="popover">
-          {(popupState) => (
-            <div>
-              <Button {...bindTrigger(popupState)}>{renderButton()}</Button>
-              <Popover
-                {...bindPopover(popupState)}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "center",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "center",
-                }}
-              >
-                {renderList()}
-              </Popover>
-            </div>
-          )}
-        </PopupState>
+        <Popover
+          {...bindPopover(popupState)}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+        >
+          {renderList()}
+        </Popover>
       </Stack>
       <Drawer anchor="left" open={drawer} onClose={toggleDrawer}>
         <Box

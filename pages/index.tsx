@@ -99,7 +99,7 @@ export default function Home({ demo, setDemo }: HomeProps) {
       });
     }
   };
-  console.log(localJobs);
+
   const titleArr = ["To Do", "In Progress", "Look Over", "Completed"];
 
   return (
