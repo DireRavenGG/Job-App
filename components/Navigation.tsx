@@ -21,31 +21,48 @@ import {
   bindTrigger,
   bindPopover,
 } from "material-ui-popup-state/hooks";
+import { useRouter } from "next/router";
 
 // if logged in change AccountUserIcon to something else
 
 const Navigation = () => {
   const [drawer, setDrawer] = useState(false);
-  const popupState = usePopupState({
-    variant: "popover",
-    popupId: "navigation",
-  });
+  // const popupState = usePopupState({
+  //   variant: "popover",
+  //   popupId: "navigation",
+  // });
+
+  const router = useRouter();
 
   //add login in to drawer aswell
   const toggleDrawer = () => {
     setDrawer(!drawer);
   };
 
-  const renderButton = () => {
-    return <AccountCircleIcon sx={{ fontSize: 40 }} />;
+  const buttonHandler = (action: string) => {
+    if (action == "login") {
+    } else {
+    }
   };
-
   const renderList = () => {
     return (
       <List>
-        <ListItem button></ListItem>
+        <ListItem button>Login</ListItem>
       </List>
     );
+  };
+
+  const renderLoginButtons = () => {
+    if (router.pathname == "/signup" || router.pathname == "/login") {
+      return;
+    } else {
+      return (
+        <Stack direction="row">
+          <Button>Login</Button>
+          <Button>Sign Up</Button>
+        </Stack>
+      );
+    }
   };
   return (
     <Box sx={{ p: 1, mb: 10, bgcolor: "secondary.dark" }}>
@@ -53,7 +70,11 @@ const Navigation = () => {
         <Button onClick={toggleDrawer}>
           <MenuIcon sx={{ fontSize: 40 }} />
         </Button>
-        <Popover
+        {}
+        {/* <Button {...bindTrigger(popupState)}>
+          <AccountCircleIcon sx={{ fontSize: 40 }} />
+        </Button> */}
+        {/* <Popover
           {...bindPopover(popupState)}
           anchorOrigin={{
             vertical: "bottom",
@@ -65,7 +86,8 @@ const Navigation = () => {
           }}
         >
           {renderList()}
-        </Popover>
+        </Popover> */}
+        {renderLoginButtons()}
       </Stack>
       <Drawer anchor="left" open={drawer} onClose={toggleDrawer}>
         <Box

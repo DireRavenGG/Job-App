@@ -69,7 +69,7 @@ const AddForm = ({ user, setDemo, demo }: AddFormProps) => {
       window.location.href = "/";
       return;
     }
-    console.log(setDemo);
+
     setDemo((prevDemo: Job[]) => [
       ...prevDemo,
       {

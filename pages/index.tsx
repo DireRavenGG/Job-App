@@ -105,7 +105,7 @@ export default function Home({ demo, setDemo }: HomeProps) {
   return (
     <Box>
       <Box>
-        <Navigation signIn={signIn} signOut={signOut} user={user} />
+        <Navigation />
       </Box>
       <Container>
         <Box

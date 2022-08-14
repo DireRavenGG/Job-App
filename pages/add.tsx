@@ -19,7 +19,7 @@ export default function Add({ demo, setDemo }: AddProps) {
 
   return (
     <div>
-      <Navigation signIn={signIn} signOut={signOut} user={user} />
+      <Navigation />
       <AddForm user={user} setDemo={setDemo} demo={demo} />
     </div>
   );
