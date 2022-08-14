@@ -1,11 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../../../../prisma/db";
 
 export default async function getJobs(
   { query: { name } }: { query: { name: string } },
   res: NextApiResponse
 ) {
-  const prisma = new PrismaClient({ log: ["query"] });
   const username = name;
 
   try {

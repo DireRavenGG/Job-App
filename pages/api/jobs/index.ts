@@ -1,12 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-
+import { prisma } from "../../../prisma/db";
 export default async function getJobs(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const prisma = new PrismaClient({ log: ["query"] });
-
   try {
     const jobs = await prisma.job.findMany();
     res.status(200);

@@ -1,12 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-
+import { prisma } from "../../../prisma/db";
 export default async function deleteJob(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const prisma = new PrismaClient({ log: ["query"] });
-
   try {
     const id = req.body.id;
     const deleteJob = await prisma.job.delete({

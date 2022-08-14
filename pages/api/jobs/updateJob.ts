@@ -1,12 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../../../prisma/db";
 
 export default async function updateJobs(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const prisma = new PrismaClient({ log: ["query"] });
-
   try {
     console.log(req.body);
     const jobData = req.body;
