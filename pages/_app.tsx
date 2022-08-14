@@ -62,7 +62,7 @@ function MyApp({ Component, pageProps: { ...pageProps } }: any) {
       <LocalizationProvider dateAdapter={DateAdapter}>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider theme={theme}>
-            <Component {...pageProps} setDemo={demoHandler} demo={demo} />;
+            <Component {...pageProps} setDemo={demoHandler} demo={demo} />
           </ThemeProvider>
         </QueryClientProvider>
       </LocalizationProvider>
