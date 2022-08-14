@@ -59,7 +59,7 @@ const Navigation = () => {
       return (
         <Stack direction="row">
           <Button>Login</Button>
-          <Button>Sign Up</Button>
+          <Button onClick={() => router.push("/signup")}>Sign Up</Button>
         </Stack>
       );
     }

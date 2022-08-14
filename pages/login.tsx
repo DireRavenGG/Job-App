@@ -1,22 +1,18 @@
 import {
   Box,
+  Button,
+  Checkbox,
   Container,
   FormControl,
-  Input,
-  TextField,
-  Stack,
-  Button,
-  Link,
-  Paper,
-  Typography,
-  Checkbox,
   FormControlLabel,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
-import { useRouter } from "next/router";
-import { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Navigation from "../components/Navigation";
 
-const SignUp = () => {
+const Login = () => {
   const [formData, setFormData] = useState({
     password: "",
     confirm: "",
@@ -24,8 +20,6 @@ const SignUp = () => {
   });
   const [checkPasswordMatch, setCheckPasswordMatch] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
-
   const formHandler = (e: any) => {
     e.preventDefault();
     if (formData.confirm != formData.password) {
@@ -40,7 +34,7 @@ const SignUp = () => {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     type: string
   ) => {
-    if (type == "password" || "confirm") {
+    if (type == "password") {
       setCheckPasswordMatch(false);
     }
     setFormData((prevFormData) => ({
@@ -51,15 +45,15 @@ const SignUp = () => {
   return (
     <Box>
       <Navigation />
-      <Container fixed={true} maxWidth="sm">
+      <Container fixed={true} maxWidth="xs">
         <Container sx={{ padding: 4 }}>
           <Box paddingBottom={2}>
             <Typography fontSize={26} fontWeight={200} color={"#c7cdd1"}>
-              Create a Account
+              Sign In
             </Typography>
           </Box>
           <FormControl component="form" onSubmit={formHandler}>
-            <Stack spacing={2}>
+            <Stack spacing={4}>
               <TextField
                 label="Username"
                 required={true}
@@ -68,29 +62,18 @@ const SignUp = () => {
                   textFieldChange(e, "username");
                 }}
               />
-              <Stack spacing={2}>
-                <Stack direction="row" spacing={2}>
-                  <TextField
-                    label="Password"
-                    type={showPassword ? "" : "password"}
-                    error={checkPasswordMatch}
-                    required={true}
-                    value={formData.password}
-                    onChange={(e) => {
-                      textFieldChange(e, "password");
-                    }}
-                  />
-                  <TextField
-                    label="Confirm"
-                    type={showPassword ? "" : "password"}
-                    error={checkPasswordMatch}
-                    required={true}
-                    value={formData.confirm}
-                    onChange={(e) => {
-                      textFieldChange(e, "confirm");
-                    }}
-                  />
-                </Stack>
+              <Stack>
+                <TextField
+                  label="Password"
+                  type={showPassword ? "" : "password"}
+                  error={checkPasswordMatch}
+                  required={true}
+                  value={formData.password}
+                  onChange={(e) => {
+                    textFieldChange(e, "password");
+                  }}
+                />
+
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -106,13 +89,12 @@ const SignUp = () => {
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Button>Sign in instead</Button>
+                <Button>Create Account</Button>
                 <Button
                   variant="contained"
                   size="small"
                   type="submit"
                   value="submit"
-                  onClick={() => router.push("/login")}
                 >
                   Enter
                 </Button>
@@ -125,4 +107,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Login;

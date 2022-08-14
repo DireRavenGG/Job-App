@@ -20,6 +20,48 @@ const theme = createTheme({
   typography: {
     fontFamily: "Roboto",
   },
+  components: {
+    MuiTextField: {
+      defaultProps: {
+        sx: {
+          "& label": {
+            color: "#c7cdd1",
+          },
+
+          "& .MuiOutlinedInput-input": {
+            color: "#c7cdd1",
+          },
+
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "#383e44",
+            },
+            "&:hover fieldset": {
+              borderColor: "#454d54",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "#4ECDC4",
+            },
+          },
+        },
+      },
+    },
+    MuiFormControlLabel: {
+      defaultProps: {
+        sx: {
+          "& .MuiFormControlLabel-label": {
+            color: "#c7cdd1",
+          },
+          "& .MuiCheckbox-root": {
+            color: "#383e44",
+          },
+          "& .Mui-checked": {
+            color: "#4ECDC4",
+          },
+        },
+      },
+    },
+  },
 });
 
 export default theme;
