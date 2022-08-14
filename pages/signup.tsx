@@ -16,6 +16,23 @@ import { useRouter } from "next/router";
 import { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
 import Navigation from "../components/Navigation";
 
+type CreateAccountProps = {
+  username: string;
+  password: string;
+};
+
+const createAccountRequest = async (userData: CreateAccountProps) => {
+  const response = await fetch("/api/auth/createAccount", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ userData }),
+  });
+  const data = await response.json();
+  const { job } = data;
+  return job;
+};
 const SignUp = () => {
   const [formData, setFormData] = useState({
     password: "",
@@ -32,7 +49,10 @@ const SignUp = () => {
       setCheckPasswordMatch(true);
     } else {
       setCheckPasswordMatch(false);
-      console.log(formData);
+      createAccountRequest({
+        username: formData.username,
+        password: formData.password,
+      });
     }
   };
 
@@ -106,13 +126,14 @@ const SignUp = () => {
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Button>Sign in instead</Button>
+                <Button onClick={() => router.push("/login")}>
+                  Sign in instead
+                </Button>
                 <Button
                   variant="contained"
                   size="small"
                   type="submit"
                   value="submit"
-                  onClick={() => router.push("/login")}
                 >
                   Enter
                 </Button>

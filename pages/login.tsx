@@ -12,31 +12,39 @@ import {
 import { ChangeEvent, useState } from "react";
 import Navigation from "../components/Navigation";
 
+type LoginProps = {
+  username: string;
+  password: string;
+};
+const loginRequest = async (userData: LoginProps) => {
+  const response = await fetch("/api/auth/signIn", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ userData }),
+  });
+  const data = await response.json();
+  const { job } = data;
+  return job;
+};
+
 const Login = () => {
   const [formData, setFormData] = useState({
     password: "",
-    confirm: "",
     username: "",
   });
-  const [checkPasswordMatch, setCheckPasswordMatch] = useState(false);
+
   const [showPassword, setShowPassword] = useState(false);
   const formHandler = (e: any) => {
     e.preventDefault();
-    if (formData.confirm != formData.password) {
-      setCheckPasswordMatch(true);
-    } else {
-      setCheckPasswordMatch(false);
-      console.log(formData);
-    }
+    loginRequest(formData);
   };
 
   const textFieldChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     type: string
   ) => {
-    if (type == "password") {
-      setCheckPasswordMatch(false);
-    }
     setFormData((prevFormData) => ({
       ...prevFormData,
       [type]: e.target.value,
@@ -66,7 +74,6 @@ const Login = () => {
                 <TextField
                   label="Password"
                   type={showPassword ? "" : "password"}
-                  error={checkPasswordMatch}
                   required={true}
                   value={formData.password}
                   onChange={(e) => {
