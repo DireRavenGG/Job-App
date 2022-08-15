@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../prisma/db";
 import * as argon2 from "argon2";
+import { withIronSessionApiRoute } from "iron-session/next";
+import { ironOptions } from "../../../lib/config";
 const signIn = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userData } = req.body;
   const { username, password } = userData;
@@ -14,11 +16,10 @@ const signIn = async (req: NextApiRequest, res: NextApiResponse) => {
     isPassword = await argon2.verify(user.password, password);
   }
   if (isPassword) {
-    console.log(user);
+    res.json({ user });
   } else {
-    res.status(401);
-    res.send("Fucked up");
+    res.json({});
   }
 };
 
-export default signIn;
+export default withIronSessionApiRoute(signIn, ironOptions);

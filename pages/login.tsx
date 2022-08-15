@@ -9,6 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
 import Navigation from "../components/Navigation";
 
@@ -34,11 +35,16 @@ const Login = () => {
     password: "",
     username: "",
   });
-
+  const [notFound, setNotFound] = useState(false);
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const formHandler = (e: any) => {
+  const formHandler = async (e: any) => {
     e.preventDefault();
-    loginRequest(formData);
+    const response = await loginRequest(formData);
+    console.log(response);
+    if (response == undefined) {
+      setNotFound((prevNotFound) => !prevNotFound);
+    }
   };
 
   const textFieldChange = (
@@ -55,7 +61,7 @@ const Login = () => {
       <Navigation />
       <Container fixed={true} maxWidth="xs">
         <Container sx={{ padding: 4 }}>
-          <Box paddingBottom={2}>
+          <Box paddingBottom={4}>
             <Typography fontSize={26} fontWeight={200} color={"#c7cdd1"}>
               Sign In
             </Typography>
@@ -66,21 +72,23 @@ const Login = () => {
                 label="Username"
                 required={true}
                 value={formData.username}
+                error={notFound}
                 onChange={(e) => {
                   textFieldChange(e, "username");
                 }}
               />
-              <Stack>
-                <TextField
-                  label="Password"
-                  type={showPassword ? "" : "password"}
-                  required={true}
-                  value={formData.password}
-                  onChange={(e) => {
-                    textFieldChange(e, "password");
-                  }}
-                />
 
+              <TextField
+                label="Password"
+                type={showPassword ? "" : "password"}
+                required={true}
+                error={notFound}
+                value={formData.password}
+                onChange={(e) => {
+                  textFieldChange(e, "password");
+                }}
+              />
+              <Stack>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -96,7 +104,9 @@ const Login = () => {
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Button>Create Account</Button>
+                <Button onClick={() => router.push("/signup")}>
+                  Create Account
+                </Button>
                 <Button
                   variant="contained"
                   size="small"
