@@ -4,12 +4,9 @@ import theme from "../utils/theme";
 import { QueryClient, QueryClientProvider } from "react-query";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import { SessionProvider } from "next-auth/react";
-import Navigation from "../components/Navigation";
 import { Job } from "../types/job";
 import { useState } from "react";
-import { AppProps } from "next/app";
-import { NextComponentType, NextPageContext } from "next";
+
 const queryClient = new QueryClient();
 const demoJobs = [
   {
@@ -58,15 +55,13 @@ function MyApp({ Component, pageProps: { ...pageProps } }: any) {
   };
 
   return (
-    <SessionProvider>
-      <LocalizationProvider dateAdapter={DateAdapter}>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider theme={theme}>
-            <Component {...pageProps} setDemo={demoHandler} demo={demo} />
-          </ThemeProvider>
-        </QueryClientProvider>
-      </LocalizationProvider>
-    </SessionProvider>
+    <LocalizationProvider dateAdapter={DateAdapter}>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} setDemo={demoHandler} demo={demo} />
+        </ThemeProvider>
+      </QueryClientProvider>
+    </LocalizationProvider>
   );
 }
 
