@@ -22,10 +22,21 @@ import {
   bindPopover,
 } from "material-ui-popup-state/hooks";
 import { useRouter } from "next/router";
+import UserProps from "../types/user";
 
 // if logged in change AccountUserIcon to something else
 
-const Navigation = () => {
+const signoutRequest = async () => {
+  const response = await fetch("/api/auth/logout", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response.ok;
+};
+
+const Navigation = ({ user }: { user?: UserProps | null }) => {
   const [drawer, setDrawer] = useState(false);
   // const popupState = usePopupState({
   //   variant: "popover",
@@ -39,26 +50,36 @@ const Navigation = () => {
     setDrawer(!drawer);
   };
 
-  const buttonHandler = (action: string) => {
-    if (action == "login") {
-    } else {
+  // const buttonHandler = (action: string) => {
+  //   if (action == "login") {
+  //   } else {
+  //   }
+  // };
+  // const renderList = () => {
+  //   return (
+  //     <List>
+  //       <ListItem button>Login</ListItem>
+  //     </List>
+  //   );
+  // };
+
+  const signOutHandler = async () => {
+    const res = await signoutRequest();
+    if (res) {
+      router.reload();
     }
-  };
-  const renderList = () => {
-    return (
-      <List>
-        <ListItem button>Login</ListItem>
-      </List>
-    );
   };
 
   const renderLoginButtons = () => {
     if (router.pathname == "/signup" || router.pathname == "/login") {
-      return;
     } else {
+      console.log(user);
+      if (user) {
+        return <Button onClick={signOutHandler}>Sign Out</Button>;
+      }
       return (
         <Stack direction="row">
-          <Button>Login</Button>
+          <Button onClick={() => router.push("/login")}>Login</Button>
           <Button onClick={() => router.push("/signup")}>Sign Up</Button>
         </Stack>
       );

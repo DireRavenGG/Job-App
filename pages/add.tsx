@@ -1,22 +1,15 @@
 import Navigation from "../components/Navigation";
 import AddForm from "../components/AddForm";
-import { useEffect, useState } from "react";
-import { useSession, signIn, signOut } from "next-auth/react";
 import { Job } from "../types/job";
+import UserProps from "../types/user";
+import { withIronSessionSsr } from "iron-session/next";
+import { ironOptions } from "../lib/config";
 interface AddProps {
   demo: Job[];
   setDemo: any;
+  user: UserProps;
 }
-export default function Add({ demo, setDemo }: AddProps) {
-  const { data: session } = useSession();
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
-    if (session) {
-      setUser(session);
-    }
-  }, [session]);
-
+export default function Add({ demo, setDemo, user }: AddProps) {
   return (
     <div>
       <Navigation />
@@ -24,3 +17,14 @@ export default function Add({ demo, setDemo }: AddProps) {
     </div>
   );
 }
+
+export const getServerSideProps = withIronSessionSsr(
+  async function getServerSideProps({ req }) {
+    return {
+      props: {
+        user: req.session.account || null,
+      },
+    };
+  },
+  ironOptions
+);

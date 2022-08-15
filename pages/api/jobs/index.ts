@@ -10,7 +10,7 @@ export default async function getJobs(
     res.json({ jobs });
   } catch (e) {
     res.status(500);
-    res.json({ error: "Unable to fetch jobs" });
+    res.json({ jobs: [] });
   } finally {
     await prisma.$disconnect();
   }

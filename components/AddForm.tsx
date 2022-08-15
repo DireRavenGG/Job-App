@@ -18,6 +18,7 @@ import { format, startOfToday } from "date-fns";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { useMutation } from "react-query";
 import { Job } from "../types/job";
+import UserProps from "../types/user";
 
 async function createJobRequest(jobData: any) {
   const response = await fetch("/api/jobs/create", {
@@ -32,7 +33,7 @@ async function createJobRequest(jobData: any) {
   return job;
 }
 interface AddFormProps {
-  user: any;
+  user: UserProps;
   setDemo: Dispatch<SetStateAction<Job[]>>;
   demo: Job[];
 }
@@ -54,13 +55,13 @@ const AddForm = ({ user, setDemo, demo }: AddFormProps) => {
   };
 
   const submitHandler = () => {
-    if (user.user) {
+    if (user) {
       mutate({
         title: job,
         datePosted: format(date, "MM/dd/yy"),
         status: select,
         moreInfo: moreInfo,
-        name: user.user.name,
+        name: user.username,
       });
       setSelect("");
       setDate(result);

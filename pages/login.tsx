@@ -9,9 +9,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { withIronSessionSsr } from "iron-session/next";
 import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
 import Navigation from "../components/Navigation";
+import { ironOptions } from "../lib/config";
 
 type LoginProps = {
   username: string;
@@ -26,8 +28,8 @@ const loginRequest = async (userData: LoginProps) => {
     body: JSON.stringify({ userData }),
   });
   const data = await response.json();
-  const { job } = data;
-  return job;
+  const { status } = data;
+  return status;
 };
 
 const Login = () => {
@@ -41,6 +43,9 @@ const Login = () => {
   const formHandler = async (e: any) => {
     e.preventDefault();
     const response = await loginRequest(formData);
+    if (response == "ok") {
+      router.push("/");
+    }
   };
 
   const textFieldChange = (
@@ -121,3 +126,14 @@ const Login = () => {
 };
 
 export default Login;
+
+export const getServerSideProps = withIronSessionSsr(
+  async function getServerSideProps({ req }) {
+    return {
+      props: {
+        user: req.session.account || null,
+      },
+    };
+  },
+  ironOptions
+);

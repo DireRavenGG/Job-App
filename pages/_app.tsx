@@ -6,6 +6,7 @@ import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { Job } from "../types/job";
 import { useState } from "react";
+import UserProps from "../types/user";
 
 const queryClient = new QueryClient();
 const demoJobs = [
@@ -47,7 +48,10 @@ const demoJobs = [
   },
 ];
 
-function MyApp({ Component, pageProps: { ...pageProps } }: any) {
+function MyApp(
+  { Component, pageProps: { ...pageProps } }: any,
+  user: UserProps
+) {
   const [demo, setDemo] = useState(demoJobs);
 
   const demoHandler = (arr: Job[]) => {

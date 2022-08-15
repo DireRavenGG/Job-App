@@ -1,10 +1,10 @@
-import { withIronSessionApiRoute } from "iron-session/next/dist";
+import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ironOptions } from "../../../lib/config";
 
 const logoutRoute = (req: NextApiRequest, res: NextApiResponse) => {
   req.session.destroy();
-  res.send({ ok: true });
+  res.json({ refresh: true });
 };
 
 export default withIronSessionApiRoute(logoutRoute, ironOptions);

@@ -6,43 +6,29 @@ import TaskContainer from "../components/TaskContainer";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { updateJobs } from "../api/mutations/updateStatus";
 import ContainerHeader from "../components/ContainerHeader";
-import { useSession, signIn, signOut } from "next-auth/react";
-import { Session } from "next-auth";
 import { Job } from "../types/job";
 import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from "../lib/config";
-export async function fetchJobsRequest(name: string) {
-  const response = await fetch(`/api/jobs/index/${name}`, {});
-  const data = await response.json();
+import UserProps from "../types/user";
+import QueryJobs from "../utils/queryJobs";
 
-  return data;
-}
+// const getUser = async (user: UserProps | null) => {
+//   const xawait user
+// }
 
 interface HomeProps {
   demo: Job[];
   setDemo: Dispatch<SetStateAction<Job[]>>;
-  user: any;
+  user: UserProps | null;
 }
 
 export default function Home({ demo, setDemo, user }: HomeProps) {
-  const name = user.username || "";
-
-  const { data: jobs } = useQuery(
-    ["jobs", name],
-    () => fetchJobsRequest(name),
-    { retry: false }
-  );
+  let jobs: undefined | { jobs: Job[] } = undefined;
+  if (user) {
+    jobs = QueryJobs(user.username);
+  }
 
   const [localJobs, setLocalJobs] = useState<Job[]>([]);
-  // const [user, setUser] = useState<Session>();
-
-  // useEffect(() => {
-  //   if (session) {
-  //     setUser(session);
-
-  //     return;
-  //   }
-  // }, [session]);
 
   const updateMutate = useMutation(updateJobs, {
     onError: (error) => {
@@ -51,20 +37,18 @@ export default function Home({ demo, setDemo, user }: HomeProps) {
   });
 
   useEffect(() => {
-    if (jobs) {
-      console.log(jobs);
-      setLocalJobs([...jobs.jobs]);
-      return;
+    if (user) {
+      if (jobs) {
+        setLocalJobs([...jobs.jobs]);
+      }
+    } else {
+      setLocalJobs(demo);
     }
-  }, [jobs]);
-
-  useEffect(() => {
-    setLocalJobs(demo);
-  }, [demo]);
+  }, [demo, jobs, user]);
 
   const dragEndHandler = (result: any) => {
     if (!result.destination) return;
-    if (!user || !user.user) {
+    if (!user) {
       const jobIndex = localJobs.findIndex(
         (job) => job.id == result.draggableId
       );
@@ -104,7 +88,7 @@ export default function Home({ demo, setDemo, user }: HomeProps) {
   return (
     <Box>
       <Box>
-        <Navigation />
+        <Navigation user={user} />
       </Box>
       <Container>
         <Box
@@ -151,7 +135,6 @@ export default function Home({ demo, setDemo, user }: HomeProps) {
     </Box>
   );
 }
-
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req }) {
     return {

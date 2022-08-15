@@ -6,18 +6,18 @@ export default async function getJobs(
   res: NextApiResponse
 ) {
   const username = name;
-
   try {
     const jobs = await prisma.job.findMany({
       where: {
-        user: username,
+        userId: username,
       },
     });
+
     res.status(200);
     res.json({ jobs });
   } catch (e) {
     res.status(500);
-    res.json({ error: "Unable to fetch jobs" });
+    res.json({ jobs: [] });
   } finally {
     await prisma.$disconnect();
   }

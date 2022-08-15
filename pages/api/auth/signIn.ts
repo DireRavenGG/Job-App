@@ -32,11 +32,11 @@ const signIn = async (req: NextApiRequest, res: NextApiResponse) => {
       username: user.username,
       pfp: user.pfp || "",
     };
+
     await req.session.save();
-    res.redirect("/");
-    res.send("logged in");
+    res.json({ status: "ok" });
   } else {
-    res.json({});
+    res.json({ status: "error" });
   }
 };
 
