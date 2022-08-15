@@ -9,6 +9,8 @@ import ContainerHeader from "../components/ContainerHeader";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { Session } from "next-auth";
 import { Job } from "../types/job";
+import { withIronSessionSsr } from "iron-session/next";
+import { ironOptions } from "../lib/config";
 export async function fetchJobsRequest(name: string) {
   const response = await fetch(`/api/jobs/index/${name}`, {});
   const data = await response.json();
@@ -19,16 +21,12 @@ export async function fetchJobsRequest(name: string) {
 interface HomeProps {
   demo: Job[];
   setDemo: Dispatch<SetStateAction<Job[]>>;
+  user: any;
 }
 
-export default function Home({ demo, setDemo }: HomeProps) {
-  const { data: session } = useSession();
-  let name = "";
-  if (session) {
-    if (session.user) {
-      name = session.user.name as string;
-    }
-  }
+export default function Home({ demo, setDemo, user }: HomeProps) {
+  const name = user.username || "";
+
   const { data: jobs } = useQuery(
     ["jobs", name],
     () => fetchJobsRequest(name),
@@ -36,15 +34,15 @@ export default function Home({ demo, setDemo }: HomeProps) {
   );
 
   const [localJobs, setLocalJobs] = useState<Job[]>([]);
-  const [user, setUser] = useState<Session>();
+  // const [user, setUser] = useState<Session>();
 
-  useEffect(() => {
-    if (session) {
-      setUser(session);
+  // useEffect(() => {
+  //   if (session) {
+  //     setUser(session);
 
-      return;
-    }
-  }, [session]);
+  //     return;
+  //   }
+  // }, [session]);
 
   const updateMutate = useMutation(updateJobs, {
     onError: (error) => {
@@ -54,6 +52,7 @@ export default function Home({ demo, setDemo }: HomeProps) {
 
   useEffect(() => {
     if (jobs) {
+      console.log(jobs);
       setLocalJobs([...jobs.jobs]);
       return;
     }
@@ -152,3 +151,14 @@ export default function Home({ demo, setDemo }: HomeProps) {
     </Box>
   );
 }
+
+export const getServerSideProps = withIronSessionSsr(
+  async function getServerSideProps({ req }) {
+    return {
+      props: {
+        user: req.session.account || null,
+      },
+    };
+  },
+  ironOptions
+);

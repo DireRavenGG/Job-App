@@ -41,10 +41,6 @@ const Login = () => {
   const formHandler = async (e: any) => {
     e.preventDefault();
     const response = await loginRequest(formData);
-    console.log(response);
-    if (response == undefined) {
-      setNotFound((prevNotFound) => !prevNotFound);
-    }
   };
 
   const textFieldChange = (
