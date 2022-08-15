@@ -17,25 +17,29 @@ declare module "iron-session" {
 const signIn = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userData } = req.body;
   const { username, password } = userData;
-  const user = await prisma.user.findUnique({
-    where: {
-      username,
-    },
-  });
-  let isPassword = false;
-  if (user) {
-    isPassword = await argon2.verify(user.password, password);
-  }
-  if (isPassword && user) {
-    req.session.account = {
-      id: user.id,
-      username: user.username,
-      pfp: user.pfp || "",
-    };
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        username,
+      },
+    });
+    let isPassword = false;
+    if (user) {
+      isPassword = await argon2.verify(user.password, password);
+    }
+    if (isPassword && user) {
+      req.session.account = {
+        id: user.id,
+        username: user.username,
+        pfp: user.pfp || "",
+      };
 
-    await req.session.save();
-    res.json({ status: "ok" });
-  } else {
+      await req.session.save();
+      res.json({ status: "ok" });
+    } else {
+      res.json({ status: "error" });
+    }
+  } catch (e) {
     res.json({ status: "error" });
   }
 };

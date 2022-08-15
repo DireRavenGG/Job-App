@@ -45,6 +45,8 @@ const Login = () => {
     const response = await loginRequest(formData);
     if (response == "ok") {
       router.push("/");
+    } else {
+      setNotFound(true);
     }
   };
 
@@ -52,6 +54,10 @@ const Login = () => {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     type: string
   ) => {
+    if (notFound) {
+      setNotFound(false);
+    }
+
     setFormData((prevFormData) => ({
       ...prevFormData,
       [type]: e.target.value,
