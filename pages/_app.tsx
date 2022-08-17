@@ -8,7 +8,7 @@ import { Job } from "../types/job";
 import { useState } from "react";
 import UserProps from "../types/user";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 const demoJobs = [
   {
     id: 1,

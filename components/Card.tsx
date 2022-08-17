@@ -13,6 +13,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Box from "@mui/material/Box";
 import { Job } from "../types/job";
+import UserProps from "../types/user";
 interface Props {
   title: string;
   datePosted: string;
@@ -20,11 +21,7 @@ interface Props {
   allJobs: Job[];
   setLocalJobs: Dispatch<SetStateAction<Job[]>>;
   moreInfo: string;
-  user: {
-    user: {
-      name: string;
-    };
-  };
+  user: UserProps | null;
   setDemo: Dispatch<SetStateAction<Job[]>>;
 }
 const Card: React.FC<Props> = ({

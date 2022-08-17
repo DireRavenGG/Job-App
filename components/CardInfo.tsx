@@ -5,6 +5,8 @@ import EditOffIcon from "@mui/icons-material/EditOff";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { updateJobs } from "../api/mutations/updateJob";
+import UserProps from "../types/user";
+import { queryClient } from "../pages/_app";
 
 // Fix TextAreaAutoSize to not display box
 // and send data on close to server
@@ -15,11 +17,7 @@ interface Props {
   allJobs: any[];
   setLocalJobs: Dispatch<SetStateAction<any[]>>;
   moreInfo: string;
-  user: {
-    user: {
-      name: string;
-    };
-  };
+  user: UserProps | null;
   setDemo: Dispatch<SetStateAction<any[]>>;
 }
 const CardInfo: React.FC<Props> = ({
@@ -36,7 +34,7 @@ const CardInfo: React.FC<Props> = ({
   const [moreInfoVal, setMoreInfoVal] = useState("");
   const [newTitle, setNewTitle] = useState("");
   const [inputWidth, setInputWidth] = useState(0);
-  const { mutate } = useMutation(updateJobs);
+  const { mutate } = useMutation(updateJobs, {});
   useEffect(() => {
     setMoreInfoVal(moreInfo);
     setNewTitle(title);
@@ -60,16 +58,19 @@ const CardInfo: React.FC<Props> = ({
 
   const saveEdit = () => {
     if (!edit) return;
-    if (user.user) {
+    if (user) {
       mutate({
         id: id,
         title: newTitle,
         moreInfo: moreInfoVal,
       });
+
       let updateJob = allJobs.map((obj) =>
         obj.id === id ? { ...obj, title: newTitle, moreInfo: moreInfoVal } : obj
       );
       setLocalJobs(updateJob);
+      queryClient.invalidateQueries(["jobs", { id: id }]);
+      return;
     }
     let updateJob = allJobs.map((obj) =>
       obj.id === id ? { ...obj, title: newTitle, moreInfo: moreInfoVal } : obj
