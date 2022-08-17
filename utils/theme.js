@@ -31,7 +31,9 @@ const theme = createTheme({
           "& .MuiOutlinedInput-input": {
             color: "#c7cdd1",
           },
-
+          "& MuiInputAdornment-root": {
+            backgroundColor: "white",
+          },
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
               borderColor: "#383e44",
@@ -57,6 +59,38 @@ const theme = createTheme({
           },
           "& .Mui-checked": {
             color: "#4ECDC4",
+          },
+        },
+      },
+    },
+    MuiSelect: {
+      defaultProps: {
+        sx: {
+          color: "#c7cdd1",
+          "& .MuiSelect-icon": {
+            color: "#c7cdd1",
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#383e44",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#454d54",
+          },
+        },
+      },
+    },
+    MuiInputLabel: {
+      defaultProps: {
+        sx: {
+          color: "rgba(199,205,209,.45)",
+        },
+      },
+    },
+    MuiInputAdornment: {
+      defaultProps: {
+        sx: {
+          "& .MuiSvgIcon-root": {
+            fill: "#c7cdd1",
           },
         },
       },

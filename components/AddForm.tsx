@@ -90,77 +90,74 @@ const AddForm = ({ user, setDemo, demo }: AddFormProps) => {
 
   return (
     <Container>
-      <Paper elevation={4} sx={{ px: 4, bgcolor: "" }}>
-        <Stack direction="column" alignItems="center" sx={{ py: 5 }}>
-          <Typography variant="h4">New Card Form</Typography>
-        </Stack>
-        <Box>
-          <Stack direction="row" justifyContent="space-between">
-            <Input
-              placeholder="Job Title"
-              id="job-title"
-              value={job}
-              required
-              onChange={(e) => handler(e, setJob)}
-            />
-            <DesktopDatePicker
-              inputFormat="MM/dd/yyyy"
-              value={date}
-              onChange={(date) => {
-                setDate(date || result);
-              }}
-              renderInput={(params) => <TextField {...params} />}
-              allowSameDateSelection
-            ></DesktopDatePicker>
-          </Stack>
-        </Box>
-
-        <Stack direction="column" alignItems="center" sx={{ pt: 10, pb: 5 }}>
-          <FormControl sx={{ minWidth: "120px" }}>
-            <InputLabel id="demo-simple-select-standard-label">
-              Status*
-            </InputLabel>
-            <Select
-              value={select}
-              onChange={(e) => handler(e, setSelect)}
-              labelId="demo-simple-select-standard-label"
-              label="Status *"
-              required
-            >
-              <MenuItem value="To Do">To Do</MenuItem>
-              <MenuItem value="In Progress">In Progress</MenuItem>
-              <MenuItem value="Look Over">Look Over</MenuItem>
-              <MenuItem value="Completed">Completed</MenuItem>
-            </Select>
-          </FormControl>
-        </Stack>
-        <Box display="flex" justifyContent="center">
+      <Stack direction="column" alignItems="center" sx={{ py: 5 }}>
+        <Typography variant="h4" fontWeight="200" color="#c7cdd1">
+          New Card Form
+        </Typography>
+      </Stack>
+      <Box>
+        <Stack direction="row" justifyContent="space-between">
           <TextField
-            id="more-info"
-            placeholder=" Optional* Add More Info"
-            onChange={(e) => handler(e, setMoreInfo)}
-            value={moreInfo}
-            multiline
-            minRows={4}
-            maxRows={16}
-            fullWidth
-          />
-        </Box>
-        <Box display="flex" justifyContent="flex-end" py={4}>
-          <Button
-            variant="text"
-            onClick={submitHandler}
-            sx={{
-              fontSize: "20px",
-              bgcolor: "secondary.light",
-              color: "#fefefe",
-              "&:hover": { bgcolor: "rgb(76, 79, 80)" },
+            placeholder="Job Title"
+            id="job-title"
+            value={job}
+            required
+            onChange={(e) => handler(e, setJob)}
+          ></TextField>
+          <DesktopDatePicker
+            inputFormat="MM/dd/yyyy"
+            value={date}
+            onChange={(date) => {
+              setDate(date || result);
             }}
+            renderInput={(params) => <TextField {...params} />}
+            allowSameDateSelection
+          ></DesktopDatePicker>
+        </Stack>
+      </Box>
+
+      <Stack direction="column" alignItems="center" sx={{ pt: 10, pb: 5 }}>
+        <FormControl sx={{ minWidth: "120px" }}>
+          <InputLabel id="demo-simple-select-standard-label">
+            Status*
+          </InputLabel>
+          <Select
+            value={select}
+            onChange={(e) => handler(e, setSelect)}
+            labelId="demo-simple-select-standard-label"
+            label="Status *"
+            required
           >
-            Submit
-          </Button>
-        </Box>
-      </Paper>
+            <MenuItem value="To Do">To Do</MenuItem>
+            <MenuItem value="In Progress">In Progress</MenuItem>
+            <MenuItem value="Look Over">Look Over</MenuItem>
+            <MenuItem value="Completed">Completed</MenuItem>
+          </Select>
+        </FormControl>
+      </Stack>
+      <Box display="flex" justifyContent="center">
+        <TextField
+          id="more-info"
+          placeholder=" Optional - Add More Info"
+          onChange={(e) => handler(e, setMoreInfo)}
+          value={moreInfo}
+          multiline
+          minRows={4}
+          maxRows={16}
+          fullWidth
+        />
+      </Box>
+      <Box display="flex" justifyContent="flex-end" py={4}>
+        <Button
+          variant="text"
+          onClick={submitHandler}
+          sx={{
+            fontSize: "20px",
+          }}
+        >
+          Submit
+        </Button>
+      </Box>
     </Container>
   );
 };
