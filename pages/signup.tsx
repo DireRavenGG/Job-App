@@ -13,7 +13,7 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Navigation from "../components/Navigation";
 
 type CreateAccountProps = {
@@ -30,8 +30,8 @@ const createAccountRequest = async (userData: CreateAccountProps) => {
     body: JSON.stringify({ userData }),
   });
   const data = await response.json();
-  const { job } = data;
-  return job;
+  const { status } = data;
+  return status;
 };
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -41,18 +41,24 @@ const SignUp = () => {
   });
   const [checkPasswordMatch, setCheckPasswordMatch] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [throwErr, setThrowErr] = useState(false);
   const router = useRouter();
 
-  const formHandler = (e: any) => {
+  const formHandler = async (e: any) => {
     e.preventDefault();
     if (formData.confirm != formData.password) {
       setCheckPasswordMatch(true);
     } else {
       setCheckPasswordMatch(false);
-      createAccountRequest({
+      const ifCreated = await createAccountRequest({
         username: formData.username,
         password: formData.password,
       });
+      if (ifCreated) {
+        router.push("/");
+      } else {
+        setThrowErr(true);
+      }
     }
   };
 
@@ -87,6 +93,8 @@ const SignUp = () => {
                 onChange={(e) => {
                   textFieldChange(e, "username");
                 }}
+                error={throwErr}
+                helperText={throwErr ? "Username taken." : ""}
               />
               <Stack spacing={2}>
                 <Stack direction="row" spacing={2}>
