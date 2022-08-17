@@ -102,6 +102,9 @@ const SignUp = () => {
                     label="Password"
                     type={showPassword ? "" : "password"}
                     error={checkPasswordMatch}
+                    helperText={
+                      checkPasswordMatch ? "Passwords don't match." : null
+                    }
                     required={true}
                     value={formData.password}
                     onChange={(e) => {

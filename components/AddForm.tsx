@@ -19,6 +19,7 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { useMutation } from "react-query";
 import { Job } from "../types/job";
 import UserProps from "../types/user";
+import { useRouter } from "next/router";
 
 async function createJobRequest(jobData: any) {
   const response = await fetch("/api/jobs/create", {
@@ -43,20 +44,17 @@ const AddForm = ({ user, setDemo, demo }: AddFormProps) => {
   const result = startOfToday;
   const [date, setDate] = useState(result);
   const [moreInfo, setMoreInfo] = useState("");
-  const { mutate } = useMutation(createJobRequest);
+  const { mutateAsync } = useMutation(createJobRequest);
 
-  // REFACTOR HANDLERS CLEAN THIS SHIT UP
-  // const handler = (e, set) => {
-
-  // }
+  const router = useRouter();
 
   const handler = (e: any, set: SetStateAction<any>) => {
     set(e.target.value);
   };
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
     if (user) {
-      mutate({
+      await mutateAsync({
         title: job,
         datePosted: format(date, "MM/dd/yy"),
         status: select,
@@ -67,8 +65,7 @@ const AddForm = ({ user, setDemo, demo }: AddFormProps) => {
       setDate(result);
       setJob("");
       setMoreInfo("");
-      window.location.href = "/";
-      return;
+      router.push("/");
     }
 
     setDemo((prevDemo: Job[]) => [

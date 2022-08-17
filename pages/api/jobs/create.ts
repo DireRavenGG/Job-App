@@ -7,7 +7,6 @@ export default async function createJob(
 ) {
   try {
     const { job: jobData } = req.body;
-    console.log(jobData);
 
     const job = await prisma.job.create({
       data: {
@@ -24,7 +23,5 @@ export default async function createJob(
     console.error(e);
     res.status(500);
     res.json({ error: "Sorry unable to add" });
-  } finally {
-    await prisma.$disconnect();
   }
 }
