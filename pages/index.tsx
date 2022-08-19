@@ -1,7 +1,7 @@
 import { Container, Box } from "@mui/material";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Navigation from "../components/Navigation";
-import { useQuery, useMutation } from "react-query";
+import { useMutation } from "react-query";
 import TaskContainer from "../components/TaskContainer";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { updateJobs } from "../api/mutations/updateStatus";
@@ -10,11 +10,7 @@ import { Job } from "../types/job";
 import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from "../lib/config";
 import UserProps from "../types/user";
-import QueryJobs from "../utils/queryJobs";
-
-// const getUser = async (user: UserProps | null) => {
-//   const xawait user
-// }
+import useQueryJobs from "../utils/useQueryJobs";
 
 interface HomeProps {
   demo: Job[];
@@ -23,10 +19,7 @@ interface HomeProps {
 }
 
 export default function Home({ demo, setDemo, user }: HomeProps) {
-  let jobs: undefined | { jobs: Job[] } = undefined;
-  if (user) {
-    jobs = QueryJobs(user.username);
-  }
+  const jobs = useQueryJobs(user?.username);
 
   const [localJobs, setLocalJobs] = useState<Job[]>([]);
 

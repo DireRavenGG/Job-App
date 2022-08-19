@@ -1,11 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../../prisma/db";
 
+type NextApiRequestWithParams = NextApiRequest & {
+  query: { name: string };
+};
+
 export default async function getJobs(
-  { query: { name } }: { query: { name: string } },
+  req: NextApiRequestWithParams,
   res: NextApiResponse
 ) {
-  const username = name;
+  const username = req.query.name;
   try {
     const jobs = await prisma.job.findMany({
       where: {
