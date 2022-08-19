@@ -38,30 +38,12 @@ const signoutRequest = async () => {
 
 const Navigation = ({ user }: { user?: UserProps | null }) => {
   const [drawer, setDrawer] = useState(false);
-  // const popupState = usePopupState({
-  //   variant: "popover",
-  //   popupId: "navigation",
-  // });
 
   const router = useRouter();
 
-  //add login in to drawer aswell
   const toggleDrawer = () => {
     setDrawer(!drawer);
   };
-
-  // const buttonHandler = (action: string) => {
-  //   if (action == "login") {
-  //   } else {
-  //   }
-  // };
-  // const renderList = () => {
-  //   return (
-  //     <List>
-  //       <ListItem button>Login</ListItem>
-  //     </List>
-  //   );
-  // };
 
   const signOutHandler = async () => {
     const res = await signoutRequest();
@@ -73,7 +55,6 @@ const Navigation = ({ user }: { user?: UserProps | null }) => {
   const renderLoginButtons = () => {
     if (router.pathname == "/signup" || router.pathname == "/login") {
     } else {
-      console.log(user);
       if (user) {
         return <Button onClick={signOutHandler}>Sign Out</Button>;
       }
@@ -92,22 +73,7 @@ const Navigation = ({ user }: { user?: UserProps | null }) => {
           <MenuIcon sx={{ fontSize: 40 }} />
         </Button>
         {}
-        {/* <Button {...bindTrigger(popupState)}>
-          <AccountCircleIcon sx={{ fontSize: 40 }} />
-        </Button> */}
-        {/* <Popover
-          {...bindPopover(popupState)}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
-        >
-          {renderList()}
-        </Popover> */}
+
         {renderLoginButtons()}
       </Stack>
       <Drawer anchor="left" open={drawer} onClose={toggleDrawer}>
