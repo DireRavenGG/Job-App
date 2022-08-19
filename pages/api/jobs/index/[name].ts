@@ -18,10 +18,10 @@ export default async function getJobs(
     });
 
     res.status(200);
-    res.json({ jobs });
+    res.json(jobs);
   } catch (e) {
     res.status(500);
-    res.json({ jobs: [] });
+    res.json([]);
   } finally {
     await prisma.$disconnect();
   }

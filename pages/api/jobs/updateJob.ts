@@ -6,7 +6,6 @@ export default async function updateJobs(
   res: NextApiResponse
 ) {
   try {
-    console.log(req.body);
     const jobData = req.body;
 
     const status = req.body.status;
